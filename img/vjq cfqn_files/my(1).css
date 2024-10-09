@@ -1,0 +1,68 @@
+.td-container, .tdc-row {
+    max-width: 1250px;
+    width: 100%;
+}
+
+.td-pb-span4 {
+    width: 300px;
+}
+
+.td-pb-span8 {
+    width: calc(100% - 340px);
+}
+
+.td-pb-row [class*="td-pb-span"] {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+@media (max-width: 960px) {
+    .td-pb-span4, .td-pb-span8 {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .td-container, .tdc-row {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}
+
+@media (max-width: 1018px) {
+    .td-container, .tdc-row {
+        width: 100%;
+    }
+
+    .td-pb-row [class*="td-pb-span"] {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+}
+
+.td-post-content img {
+    display: inline-block;
+}
+
+#divCal table td {
+    padding: 0;
+}
+
+.td-pb-row, .td-block-row {
+    margin: 0;
+}
+
+@media (max-width: 1018px) and (min-width: 768px) {
+    .td-pb-row, .td-block-row {
+        margin: 0;
+    }
+}
+
+details {
+    cursor: pointer;
+    border: 1px dashed #684d4d;
+}
+
+.td-ss-main-sidebar {
+    min-width: 330px;
+}

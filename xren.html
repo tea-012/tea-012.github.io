@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приют для животных</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        .filter {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+        .filter select {
+            width: calc(33.33% - 22px);
+            margin-right: 10px;
+            padding: 10px;
+        }
+        .filter select:last-child {
+            margin-right: 0;
+        }
+        .animal-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .animal-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .animal-list {
+            display: grid;
+            grid-template-columns: repeat(4, 2fr);
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Подборка животных</h1>
+
+    <div class="filter">
+        <select id="typeFilter" onchange="filterAnimals()">
+            <option value="all">Все</option>
+            <option value="dog">Собаки</option>
+            <option value="cat">Кошки</option>
+        </select>
+
+        <select id="ageFilter" onchange="filterAnimals()">
+            <option value="all">Все</option>
+            <option value="puppy">Щенки (до 1 года)</option>
+            <option value="adult">Взрослые (от 1 до 7 лет)</option>
+            <option value="senior">Пожилые (старше 7 лет)</option>
+        </select>
+
+        <select id="furlengthFilter" onchange="filterAnimals()">
+            <option value="all">Все</option>
+            <option value="short">Короткая</option>
+            <option value="medium">Средняя</option>
+            <option value="long">Длинная</option>
+        </select>
+    </div>
+
+    <div id="animalList" class="animal-list">
+        <div class="animal-card" data-type="dog" data-age="puppy" data-furlength="short">
+            <img src="https://via.placeholder.com/150" alt="Шарик">
+            <h3>Шарик</h3>
+            <p>Возраст: 6 месяцев</p>
+            <p>Тип: Собака</p>
+            <p>Количество шерсти: Короткая</p>
+        </div>
+        <div class="animal-card" data-type="cat" data-age="adult" data-furlength="long">
+            <img src="https://via.placeholder.com/150" alt="Мурка">
+            <h3>Мурка</h3>
+            <p>Возраст: 3 года</p>
+            <p>Тип: Кошка</p>
+            <p>Количество шерсти: Длинная</p>
+        </div>
+        <div class="animal-card" data-type="dog" data-age="adult" data-furlength="medium">
+            <img src="https://via.placeholder.com/150" alt="Бобик">
+            <h3>Бобик</h3>
+            <p>Возраст: 4 года</p>
+            <p>Тип: Собака</p>
+            <p>Количество шерсти: Средняя</p>
+        </div>
+        <div class="animal-card" data-type="cat" data-age="senior" data-furlength="short">
+            <img src="https://via.placeholder.com/150" alt="Пусик">
+            <h3>Пусик</h3>
+            <p>Возраст: 8 лет</p>
+            <p>Тип: Кошка</p>
+            <p>Количество шерсти: Короткая</p>
+        </div>
+        <div class="animal-card" data-type="dog" data-age="adult" data-furlength="long">
+            <img src="https://via.placeholder.com/150" alt="Рекс">
+            <h3>Рекс</h3>
+            <p>Возраст: 5 лет</p>
+            <p>Тип: Собака</p>
+            <p>Количество шерсти: Длинная</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterAnimals() {
+        const typeFilter = document.getElementById('typeFilter').value;
+        const ageFilter = document.getElementById('ageFilter').value;
+        const furlengthFilter = document.getElementById('furlengthFilter').value;
+        const animals = document.querySelectorAll('.animal-card');
+
+        animals.forEach(animal => {
+            const type = animal.getAttribute('data-type');
+            const age = animal.getAttribute('data-age');
+            const furlength = animal.getAttribute('data-furlength');
+
+            const typeMatch = (typeFilter === 'all' || type === typeFilter);
+            const ageMatch = (ageFilter === 'all' || age === ageFilter);
+            const furlengthMatch = (furlengthFilter === 'all' || furlength === furlengthFilter);
+
+            if (typeMatch && ageMatch && furlengthMatch) {
+                animal.style.display = 'block';
+            } else {
+                animal.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+$(document).ready(function () {
+    let query = window.location.search;
+    query = query.replace('?', '');
+    let elems = query.split('&');
+    let el = '';
+    let run = '';
+    for (let i = 0; i < elems.length; i++) {
+        el = elems[i].split('=');
+        if (el[0] === 'action' && el[1] !== '' && el[1] !== null) {
+            run = el[1];
+        } else if (el[0] === 'save' && el[1] !== '') { // по сути работает только эта часть
+            $.post("/wp-content/plugins/calc5530/fill_fields/fill_fields_ajax.php",
+                {
+                    save: el[1]
+                },
+                fillFromAjax
+            );
+        } else if (el[0] !== '' && el[0] !== null && el[1] !== '' && el[1] !== null) {
+            $('#' + el[0]).val(el[1]);
+        }
+    }
+    if (run !== '' && run !== null) {
+        $('#' + run).trigger('click');
+    }
+
+    function fillFromAjax(data) {
+        let el = JSON.parse(data);
+
+        for (let i = 0; i < el.length; i++) {
+            if (el[i][0] === 'action' && el[i][1] !== '' && el[i][1] !== null) { // action всегда идет первым
+                run = el[i][1];
+                /*let form_els = $('#' + run + '_main > *');
+                $.each(form_els, function (key, value) {
+                    console.log(key, value);
+                });*/
+
+                $('#' + run + '_main form *').prop('checked', false); // cleaning the forms
+                $('#' + run + '_main select *').prop('selected', false); // cleaning the selects
+                $('#' + run + '_main input[type="text"], #' + run + '_main textarea').val(''); // cleaning the inputs and textareas
+
+            } else if (el[i][0] !== '' && el[i][0] !== null && el[i][1] !== '' && el[i][1] !== null) {
+                let elx;
+                try {
+                    elx = JSON.parse(el[i][1]);
+                } catch (e) {
+                    elx = el[i][1];
+                }
+
+                let elem = $('#' + el[i][0]);
+                if (elx !== undefined && elx[0] !== undefined && elem.prop('tagName') === 'FORM') { // если это мультичекбокс
+                    for (let b = 0; b < elx.length; b++) {
+                        /*let sel = '#' + el[i][0] + ' [value = "' + elx[b] + '"]';
+                        console.log(sel);*/
+                        $('#' + el[i][0] + ' [value = "' + elx[b] + '"]').prop('checked', true);
+                    }
+                } else {
+                    //console.log("$('#'" + el[i][0] + "').val(" + elx + ").trigger('change');");
+                    elem.val(elx).trigger('change');
+                }
+            }
+        }
+        if (run !== '' && run != null) {
+            $('#' + run).trigger('click');
+        }
+    }
+});
+
+/*let entry_content = document.querySelector("#content .entry-content");
+let save_calculation = document.getElementsByClassName('save_calculation');
+// Навешиваем ОДИН обработчик на весь контейнер
+entry_content.addEventListener('click', event => {
+    // если кликнули не на тот элемент что нам нужен — выходим
+    if (!event.target.matches('button.save_calculation')) {
+        return;
+    }
+    for (let i = 0; i < save_calculation.length; i++) {
+        save_calculation[i].addEventListener('click', function() {
+            copytext(save_calculation[i].parentNode.querySelector('a'));
+            alert("Скопировано в буфер обмена.");
+        }, true);
+    }
+});*/
